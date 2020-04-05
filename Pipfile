@@ -1,0 +1,38 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+yapf = "*"
+flask-shell-ipython = "*"
+
+[packages]
+flask = "*"
+python-dotenv = "*"
+pytest-cov = "*"
+pyjwt = "*"
+celery = "*"
+redis = "*"
+sendgrid = "*"
+cloudinary = "*"
+flask-restplus = "*"
+flask-sqlalchemy = "*"
+pytest-flask = "*"
+werkzeug = "==0.16.1"
+flask-cors = "*"
+flask-migrate = "*"
+"psycopg2-binary" = "*"
+pytest = "*"
+numpy = "*"
+marshmallow = "*"
+marshmallow-enum = "*"
+passlib = "*"
+faker = "*"
+pytest-env = "*"
+gunicorn = "*"
+pyyaml = "*"
+click = "*"
+
+[requires]
+python_version = "3.7"
