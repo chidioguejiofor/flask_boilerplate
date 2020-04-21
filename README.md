@@ -61,6 +61,10 @@ flask db upgrade
 yapf -ir $(find . -name '*.py')
 ```
 
+#### Postman Docs
+You can get the documentation for the api endpoints from the 
+postman docs in the /docs folder
+
 #### Setup app with Docker
 - Ensure you have [Docker for mac](https://docs.docker.com/docker-for-mac/install/) installed and running on your machine
 

@@ -1,5 +1,6 @@
 """API Initialization Module"""
 
+import inspect
 from flask import Flask, jsonify, Blueprint
 
 from flask_restplus import Api
@@ -59,7 +60,20 @@ def create_app(current_env='development'):
     error_handlers(app)
 
     import api.views
-    import api.models
+    import api.models as models
+
+    @app.shell_context_processor
+    def make_shell_context():
+        import api.schemas as schemas
+        object_dicts = {
+            model_name: model_obj
+            for model_name, model_obj in inspect.getmembers(
+                models, inspect.isclass)
+        }
+        for schema_name, schema_obj in inspect.getmembers(
+                schemas, inspect.isclass):
+            object_dicts[schema_name] = schema_obj
+        return object_dicts
 
     @app.route('/', methods=['GET'])
     def health():
