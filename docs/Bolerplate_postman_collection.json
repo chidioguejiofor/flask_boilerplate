@@ -1,0 +1,1332 @@
+{
+	"info": {
+		"_postman_id": "b19f1723-afe4-4752-b51c-0ea93cf6b495",
+		"name": "NPO HUB API",
+		"description": "\n# Conventions\n\nHere are a few conventions that this API has: \n- All API calls have a `status` that tells the developer whether the call was successful or not.\n- All API calls have a `message` that contains a text that tells the developer what exactly happened or went wrong\n- Some calls have the `data` key that contains data response for the call\n- Paginated endpoints have a `meta` which contains pagination related information\n- Specific conventions for searching and sorting GET endpoints\n\t - the query param for search would have the format `<field_name>_search`. Eg `name_search`, `username_search` etc\n\t - the query param for sorting is the `sort_by` key and it ought to contains a comma-seperated list of sort pattern. For example, to sort by name in ascending order the query param would be `?sort_by=name` or `?sort_by=+name`. To sort by name in descending order, `?sort_by=-name`. You can decide to sort by one field first then by the next. For example, to sort by name in ascending order then by age in descending order you do `?sort_by=+name,-age` or `?sort_by=name,-age`. Note that endpoints allow some fields to be sortable so check docs of each endpoint to know which field you can sort by\n\t - searching by ids would usually perform an exact match.\n\n\n#### Overall structure of response\n```json\n{\n\t\n\tmessage: \"<some-message-here>\", // always present\n\tdata: <json-containing-data>,\n\tmeta: <paginationMeta>\n}\n\n```",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Basic Auth",
+					"item": [
+						{
+							"name": "Register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"chidiebere10132\",\n\t\n\t\"email\": \"chidioguejiofor+m212@gmail.com\", \n\t\"first_name\": \"fName\",\n\t\"last_name\": \"lastName\",\n\t\"password\": \"password1234\",\n\t\"redirect_url\": \"http://localhost:8080\"\n}"
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/register",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								},
+								"description": "Once the user hits this endpoint with valid data, a confirmation email would be sent to the user. Note that the `redirect_url` specified here is the URL in which the user would be redirected to after clicking the link from his email. \n\nThe fields for this endpoint are:\n\n- username (string): the username of the user\n- email (string): the email of the user\n- firstName (string): the first name of the user\n- last (string): the last name of the user\n- password (string): the password of the user\n- redirectURL (string): this a URL which the user would be taken to after clicking on the link. The frontend is meant to handle the logic of this link. Note that query params `success` and `message` would be passed while redirecting to this URL so that the frontend can know what went wrong\n\n"
+							},
+							"response": [
+								{
+									"name": "When all data passed is valid",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"username\": \"chi\",\n\t\"email\": \"chidioguejiofor@gmail.com\",\n\t\"firstName\": \"Chidiebere\",\n\t\"lastName\": \"Oguejiofor\",\n\t\"password\": \"password1234\",\n\t\"redirectURL\": \"http://google.com\"\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/register",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"register"
+											]
+										}
+									},
+									"status": "CREATED",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "391"
+										},
+										{
+											"key": "Set-Cookie",
+											"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjp7InR5cGUiOjEsImVtYWlsIjoiY2hpZGlvZ3VlamlvZm9yQGdtYWlsLmNvbSIsImlkIjoiLUxxcjB5aEZ3V2pwOFZpV1hUZFgiLCJ1c2VybmFtZSI6ImNoaSIsInZlcmlmaWVkIjpmYWxzZX0sImV4cCI6MTU3MDkwNjYxMywiaWF0IjoxNTcwNzMzODEzfQ.pESI-OSTqMgnnJni3ipTMdxjRhqqids0NlCjdn9t-MQ; HttpOnly"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://127.0.0.1:5500"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 10 Oct 2019 18:56:53 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"lastName\": \"Oguejiofor\",\n        \"verified\": false,\n        \"username\": \"chi\",\n        \"email\": \"chidioguejiofor@gmail.com\",\n        \"createdAt\": \"2019-10-10T19:56:52.568955+01:00\",\n        \"updatedAt\": null,\n        \"firstName\": \"Chidiebere\",\n        \"id\": \"-Lqr0yhFwWjp8ViWXTdX\"\n    },\n    \"message\": \"The user was created successfully\"\n}"
+								},
+								{
+									"name": "When username or email already exists",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"username\": \"chi\",\n\t\"email\": \"chidioguejiofor@gmail.com\",\n\t\"firstName\": \"Chidiebere\",\n\t\"lastName\": \"Oguejiofor\",\n\t\"password\": \"password1234\",\n\t\"redirectURL\": \"http://google.com\"\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/register",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"register"
+											]
+										}
+									},
+									"status": "CONFLICT",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "78"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://127.0.0.1:5500"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 10 Oct 2019 18:55:16 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The email or username already exists\",\n    \"status\": \"error\"\n}"
+								},
+								{
+									"name": "When invalid fields are provided",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/register",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"register"
+											]
+										}
+									},
+									"status": "BAD REQUEST",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "519"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://127.0.0.1:5500"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 10 Oct 2019 18:56:06 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"email\": [\n            \"Missing data for required field.\"\n        ],\n        \"firstName\": [\n            \"Missing data for required field.\"\n        ],\n        \"lastName\": [\n            \"Missing data for required field.\"\n        ],\n        \"password\": [\n            \"Missing data for required field.\"\n        ],\n        \"redirectURL\": [\n            \"Missing data for required field.\"\n        ],\n        \"username\": [\n            \"Missing data for required field.\"\n        ]\n    },\n    \"message\": \"There are some fields data you provided that are invalid\",\n    \"status\": \"error\"\n}"
+								},
+								{
+									"name": "When invalid data is supplied to the endpoint",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"username\": \"!@*(NNNbfhusa\",\n\t\"email\": \"chidioguejiofor\",\n\t\"firstName\": \"*&BNODIWBDbD\",\n\t\"lastName\": \"*#(D*BU\",\n\t\"password\": \"password1234\",\n\t\"redirectURL\": \"google.com\"\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/register",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"register"
+											]
+										}
+									},
+									"status": "BAD REQUEST",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "437"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://127.0.0.1:5500"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 10 Oct 2019 18:58:08 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"email\": [\n            \"Not a valid email address.\"\n        ],\n        \"firstName\": [\n            \"Only Alphabets are allowed here\"\n        ],\n        \"lastName\": [\n            \"Only Alphabets are allowed here\"\n        ],\n        \"redirectURL\": [\n            \"Not a valid URL.\"\n        ],\n        \"username\": [\n            \"Only letters and numbers are allowed here\"\n        ]\n    },\n    \"message\": \"There are some fields data you provided that are invalid\",\n    \"status\": \"error\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username_or_email\": \"chidioguejiofor@gmail.com\",\n\n\t\"password\": \"password1234\"\n}"
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/login",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								},
+								"description": "Once a user is logged into the app successfully, he is sent a cookie which is stored in his browser and sent automatically anytime an endpoint is hit.\n\nThus, the frontend does not *manage* tokens since this is done automatically by the client browser.\n\nThe fields for this endpoint are:\n\n- username_or_password (string): the username of the user\n- password (string): the password of the user\n"
+							},
+							"response": [
+								{
+									"name": "When usernmae or password does not exist",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"usernameOrEmail\": \"some@email.com\",\n\n\t\"password\": \"password5555555!!!\"\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/login",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "BAD REQUEST",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "76"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://127.0.0.1:5500"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 10 Oct 2019 19:06:31 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Username or password was not found\",\n    \"status\": \"error\"\n}"
+								},
+								{
+									"name": "When credentials match",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"usernameOrEmail\": \"some@email.com\",\n\n\t\"password\": \"password1234\"\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/login",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "372"
+										},
+										{
+											"key": "Set-Cookie",
+											"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjp7InR5cGUiOjEsImVtYWlsIjoic29tZUBlbWFpbC5jb20iLCJpZCI6Ii1McXJ1RE9qaWNQbk5WSTRpLXdIIiwidXNlcm5hbWUiOiJjaGkxIiwidmVyaWZpZWQiOmZhbHNlfSwiZXhwIjoxNTcwOTIxMzg1LCJpYXQiOjE1NzA3NDg1ODV9.ybQpYgaWRZM0k0tx-EGsOcgslpgN9ekDFz_JO7bfZs0; HttpOnly"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://127.0.0.1:5500"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 10 Oct 2019 23:03:05 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"lastName\": \"lastName\",\n        \"createdAt\": \"2019-10-11T00:02:36.913324+01:00\",\n        \"verified\": false,\n        \"id\": \"-LqruDOjicPnNVI4i-wH\",\n        \"firstName\": \"fName\",\n        \"username\": \"chi1\",\n        \"updatedAt\": null,\n        \"email\": \"some@email.com\"\n    },\n    \"message\": \"User was successfully logged in\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/login",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								},
+								"description": "Once a user is logged into the app successfully, he is sent a cookie which is stored in his browser and sent automatically anytime an endpoint is hit.\n\nThus, the frontend does not *manage* tokens since this is done automatically by the client browser.\n\nThe fields for this endpoint are:\n\n- usernameOrPassword (string): the username of the user\n- password (string): the password of the user\n"
+							},
+							"response": [
+								{
+									"name": "When usernmae or password does not exist",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"usernameOrEmail\": \"some@email.com\",\n\n\t\"password\": \"password5555555!!!\"\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/login",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "BAD REQUEST",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "76"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://127.0.0.1:5500"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 10 Oct 2019 19:06:31 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Username or password was not found\",\n    \"status\": \"error\"\n}"
+								},
+								{
+									"name": "When credentials match",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"usernameOrEmail\": \"some@email.com\",\n\n\t\"password\": \"password1234\"\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/login",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "372"
+										},
+										{
+											"key": "Set-Cookie",
+											"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjp7InR5cGUiOjEsImVtYWlsIjoic29tZUBlbWFpbC5jb20iLCJpZCI6Ii1McXJ1RE9qaWNQbk5WSTRpLXdIIiwidXNlcm5hbWUiOiJjaGkxIiwidmVyaWZpZWQiOmZhbHNlfSwiZXhwIjoxNTcwOTIxMzg1LCJpYXQiOjE1NzA3NDg1ODV9.ybQpYgaWRZM0k0tx-EGsOcgslpgN9ekDFz_JO7bfZs0; HttpOnly"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://127.0.0.1:5500"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 10 Oct 2019 23:03:05 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"lastName\": \"lastName\",\n        \"createdAt\": \"2019-10-11T00:02:36.913324+01:00\",\n        \"verified\": false,\n        \"id\": \"-LqruDOjicPnNVI4i-wH\",\n        \"firstName\": \"fName\",\n        \"username\": \"chi1\",\n        \"updatedAt\": null,\n        \"email\": \"some@email.com\"\n    },\n    \"message\": \"User was successfully logged in\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Resend Email",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"redirectURL\": \"http://localhost:8080\"\n}"
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/resend-email",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"resend-email"
+									]
+								},
+								"description": "This endpoint resends verification email to a logged in user. An unverified user can perform a limited amount of operations with the application. \n\n\nAll that the frontend provides here is the *redirectURL* which is a URL the redirected to once he clicks on verification link"
+							},
+							"response": [
+								{
+									"name": "When redirect URL is missing",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/resend-email",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"resend-email"
+											]
+										}
+									},
+									"status": "BAD REQUEST",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "74"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://127.0.0.1:5500"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 10 Oct 2019 22:36:39 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Redirect URL must be a valid URL\",\n    \"status\": \"error\"\n}"
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Reset Password",
+					"item": [
+						{
+							"name": "Reset Password",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"chidioguejiofoyutr@gmail.com\",\n\t\"redirectURL\": \"http://localhost:8080/reset-password\"\n}"
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/reset",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"reset"
+									]
+								},
+								"description": "When the user wants to change his password. This would be where he would start. \n\nNote that here, after the user clicks on the link in his email he would be redirected to `redirectURL/{reset-id}`. \n\nThe frontend would extract this `reset-id` and use it when calling *PATCH* `api/auth/reset/confirm`.\n\n\n"
+							},
+							"response": [
+								{
+									"name": "When all data provided is valid",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"email\": \"chidioguejiofor@gmail.com\",\n\t\"redirectURL\": \"http://localhost:8080/reset-password\"\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/reset",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"reset"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "136"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://127.0.0.1:5500"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 10 Oct 2019 22:44:30 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"success\",\n    \"message\": \"An email with instructions to reset password has been sent to `chidioguejiofor@gmail.com`\"\n}"
+								},
+								{
+									"name": "When email is not found",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"email\": \"chidioguejiofo@gmail.com\",\n\t\"redirectURL\": \"http://google.com\"\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/reset",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"reset"
+											]
+										}
+									},
+									"status": "NOT FOUND",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "79"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "http://127.0.0.1:5500"
+										},
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 10 Oct 2019 22:43:56 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The email you specified was not found\",\n    \"status\": \"error\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Confirm Reset Password",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"password\": \"password5555555!!!\",\n\t\"reset_id\": \"osme_id\"\n}"
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/reset/confirm",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"reset",
+										"confirm"
+									]
+								},
+								"description": "This endpoint does the final step of the user reset password feature. It expects you to send the reset-id in the user link\n"
+							},
+							"response": [
+								{
+									"name": "When data is missing",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/reset/confirm",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"reset",
+												"confirm"
+											]
+										}
+									},
+									"status": "BAD REQUEST",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "249"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 14 Nov 2019 13:47:26 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"password\": [\n            \"Missing data for required field.\"\n        ],\n        \"resetId\": [\n            \"Missing data for required field.\"\n        ]\n    },\n    \"message\": \"There are some fields data you provided that are invalid\",\n    \"status\": \"error\"\n}"
+								},
+								{
+									"name": "When reset link is invalid",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"password\": \"password5555555!!!\",\n\t\"resetId\": \"osme_id\"\n}"
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/reset/confirm",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"reset",
+												"confirm"
+											]
+										}
+									},
+									"status": "BAD REQUEST",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "60"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 14 Nov 2019 13:04:10 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"invalid reset link\",\n    \"status\": \"error\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Change Password",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"current_password\": \"password1234\",\n\t\"new_password\": \"password\"\n}"
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/password",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"password"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "When current and new password are the same",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"currentPassword\": \"password1234?!\",\n\t\"newPassword\": \"password1234?!\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/password",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"password"
+											]
+										}
+									},
+									"status": "BAD REQUEST",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "101"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 29 Jan 2020 08:20:21 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Both currentPassword and newPassword should not be the same\",\n    \"status\": \"error\"\n}"
+								},
+								{
+									"name": "When the password specified is invalid",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"currentPassword\": \"password1234\",\n\t\"newPassword\": \"password1234?!\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/password",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"password"
+											]
+										}
+									},
+									"status": "BAD REQUEST",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "83"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 29 Jan 2020 08:16:11 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Current password you specified is invalid\",\n    \"status\": \"error\"\n}"
+								},
+								{
+									"name": "Password must be greater than 7 characters",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"currentPassword\": \"\",\n\t\"newPassword\": \"?!\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/password",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"password"
+											]
+										}
+									},
+									"status": "BAD REQUEST",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "284"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 29 Jan 2020 08:19:57 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"currentPassword\": [\n            \"This field must be greater than 7 characters\"\n        ],\n        \"newPassword\": [\n            \"This field must be greater than 7 characters\"\n        ]\n    },\n    \"message\": \"There are some fields data you provided that are invalid\",\n    \"status\": \"error\"\n}"
+								},
+								{
+									"name": "Password changed successfully",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"currentPassword\": \"password1234?!\",\n\t\"newPassword\": \"password1234\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}/api/auth/password",
+											"host": [
+												"{{base-url}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "76"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.16.0 Python/3.7.2"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 29 Jan 2020 08:20:54 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"success\",\n    \"message\": \"Password Changed successfully\"\n}"
+								}
+							]
+						}
+					],
+					"description": "Contains endpoints that enables the user to reset his password.\n\n- The flow of the reset password logic is as follows: \n   - user hits endpoint *PATCH* `{{base-url}}/api/auth/reset` then an email is sent with reset instructions\n   - user clicks on the link from his API and is redirected to frontend which gets token from the link\n   - Frontend sends new `password` to *PATCH* `{{base-url}}/api/auth/reset/confirm`",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ae935d43-1f0f-4d8d-83eb-e09f0b1b4bda",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "5644f3dd-0586-465f-a30c-b34cc6e33029",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"description": "Let us start by looking at the authentication endpoints that exists and how to interact with them. ",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "63e3150f-8dd2-415f-960a-a0ec485b88ae",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "90e0f1ef-834d-43ec-a9b2-f23207a8573c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "10a20744-28e0-4675-b324-8c880684c4a3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e5463972-d8e8-4a90-9158-3dd54004b98b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
