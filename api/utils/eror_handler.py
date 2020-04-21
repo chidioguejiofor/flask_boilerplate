@@ -1,5 +1,5 @@
 from marshmallow import ValidationError
-from api.utils.exceptions import DataConflictException, ResponseException
+from api.utils.exceptions import ModelOperationException, ResponseException
 from api.utils.messages.error import serialization_error
 
 
@@ -13,9 +13,9 @@ def error_handlers(app):
             'message': serialization_error['invalid_fields']
         }, 400
 
-    @app.errorhandler(DataConflictException)
+    @app.errorhandler(ModelOperationException)
     def handle_data_conflict(e):
-        return {'message': e.message}, 409
+        return {'message': e.message}, e.status_code
 
     @app.errorhandler(ResponseException)
     def handle(e):  #

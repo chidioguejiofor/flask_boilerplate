@@ -9,6 +9,10 @@ serialization_error = {
     'link_clicked_is_invalid': 'The link is invalid'
 }
 
+model_errors = {
+    'ids_not_found': 'Some ids you specified were not found',
+    'column_must_have_a_value': 'The "{}" column cannot be empty',
+}
 db_errors = {
     'already_exists': '{} already exists',
 }
